@@ -132,7 +132,7 @@ const Dashboard = () => {
                     </IconButton> */}
                 </Box>
             </Card>
-            <Box sx={{ position: 'absolute', bottom: '3vh', right: '3vw' }}>
+            <Box sx={{ position: 'absolute', bottom: '7vh', right: '3vw' }}>
                 <Button sx={{ marginRight: 3 }} variant='contained' onClick={handleOpenIncome} >Add Your INcome</Button>
                 <Button variant='contained' onClick={handleOpenExpenses}>Add Your Expense</Button>
             </Box>

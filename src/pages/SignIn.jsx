@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -13,20 +11,40 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import CopyRights from '../components/CopyRights';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 const defaultTheme = createTheme();
 
 const SignIn = () => {
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    const onSubmit = (data) => {
+        console.log("eeeeeeee", data);
+        debugger;
+        const apiUrl = 'http://localhost:3001/signin';
+        const userData = {
+            email: data.email,
+            password: data.password,
+        };
+        // Make a GET request using Axios
+        axios.post(apiUrl, userData)
+            .then(response => {
+                // Handle the response data here
+                console.log("redfghjnkm", response.data);
+            })
+            .catch(error => {
+                // Handle errors here
+                console.error('Error fetching data:', error);
+            });
+    }
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -61,40 +79,34 @@ const SignIn = () => {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                                onClick={() => navigate("/dashboard")}
-                            >
-                                Sign In
-                            </Button>
+                        <Box sx={{ mt: 1 }}>
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <TextField
+                                    {...register('email', { required: true })}
+                                    label="Email"
+                                    fullWidth
+                                    variant="outlined"
+                                    type='text'
+                                    sx={{ marginBottom: 3 }}
+                                    error={!!errors.email}
+                                    helperText={errors.email && 'email is required.'}
+                                />
+                                <TextField
+                                    {...register('password')}
+                                    label="Password"
+                                    fullWidth
+                                    type={"password"}
+                                    sx={{ marginBottom: 3 }}
+                                    variant="outlined"
+                                    error={!!errors.password}
+                                    helperText={errors.password && 'password is required.'}
+                                />
+                                <Grid sx={{ display: 'flex', justifyContent: 'center', paddingBottom: 3 }}>
+                                    <Button type='submit' variant='contained'>
+                                        sign in
+                                    </Button>
+                                </Grid>
+                            </form>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="#" variant="body2">
@@ -108,9 +120,9 @@ const SignIn = () => {
                                 </Grid>
                             </Grid>
                             <Grid sx={{ mt: 5 }}>
-                            <CopyRights />
+                                <CopyRights />
                             </Grid>
-                       </Box>
+                        </Box>
                     </Box>
                 </Grid>
             </Grid>
