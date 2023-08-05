@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,8 +18,6 @@ const defaultTheme = createTheme();
 
 const SignIn = () => {
     const navigate = useNavigate();
-
-
     const {
         register,
         handleSubmit,
@@ -34,27 +32,24 @@ const SignIn = () => {
             email: data.email,
             password: data.password,
         };
-        // Make a GET request using Axios
         axios.post(apiUrl, userData)
             .then(response => {
-                // Handle the response data here
                 console.log("redfghjnkm", response.data);
             })
             .catch(error => {
-                // Handle errors here
                 console.error('Error fetching data:', error);
             });
     }
 
     return (
         <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+            <Grid container  sx={{ height: '100vh' }}>
                 <CssBaseline />
                 <Grid
                     item
                     xs={false}
                     sm={4}
-                    md={7}
+                    md={6}
                     sx={{
                         backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
                         backgroundRepeat: 'no-repeat',
@@ -64,7 +59,7 @@ const SignIn = () => {
                         backgroundPosition: 'center',
                     }}
                 />
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
                     <Box
                         sx={{
                             my: 8,
@@ -76,7 +71,7 @@ const SignIn = () => {
                     >
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         </Avatar>
-                        <Typography component="h1" variant="h5">
+                        <Typography component="h1" variant="h5" sx={{marginBottom: 3}}>
                             Sign in
                         </Typography>
                         <Box sx={{ mt: 1 }}>
