@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Avatar, Backdrop, Box, Button, Card, Fade, Modal, Stack, TextField, Typography } from '@mui/material'
 import DatePicker from '@mui/lab/DatePicker';
 import { useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const style = {
@@ -19,6 +20,17 @@ const style = {
 };
 
 const Dashboard = () => {
+    const navigate = useNavigate()
+    const location = useLocation();
+    const userdata = location.state;
+    const isAuthenticated = localStorage.getItem('token');
+    
+    useEffect(()=>{
+        if(!isAuthenticated){
+            navigate("/")
+        }
+    },[])
+
     const [open, setOpen] = React.useState(false);
     const [type, setType] = React.useState("");
 
@@ -122,14 +134,11 @@ const Dashboard = () => {
                     <Avatar variant="rounded" src="avatar1.jpg" />
                     <Box sx={{ display: 'flex', marginLeft: 10 }}>
                         <Stack>
-                            <Typography fontWeight={700}>Abhinand V P</Typography>
+                            <Typography fontWeight={700}>{userdata?.userName}</Typography>
                             <Typography variant="body2" color="text.secondary">
                             </Typography>
                         </Stack>
                     </Box>
-                    {/* <IconButton>
-                        <Edit sx={{ fontSize: 14 }} />
-                    </IconButton> */}
                 </Box>
             </Card>
             <Box sx={{ position: 'absolute', bottom: '7vh', right: '3vw' }}>

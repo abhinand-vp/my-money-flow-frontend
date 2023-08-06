@@ -3,6 +3,7 @@ import './App.css';
 import Dashboard from './pages/Dashboard';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path='*' element={<PageNotFound />} />
       </Routes>
       </BrowserRouter>
     </div>

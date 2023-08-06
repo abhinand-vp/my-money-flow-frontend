@@ -21,6 +21,7 @@ const SignIn = () => {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
 
@@ -35,7 +36,7 @@ const SignIn = () => {
         };
         axios.post(apiUrl, userData)
             .then(response => {
-                console.log("redfghjnkm", response.data.msg);
+                reset()
                 if (response.data.signup) {
                     navigate("/dashboard");
                     toast.success('Successfully toasted!')
@@ -87,6 +88,16 @@ const SignIn = () => {
                         <Box sx={{ mt: 1 }}>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <TextField
+                                    {...register('username')}
+                                    label="username"
+                                    fullWidth
+                                    type={"username"}
+                                    sx={{ marginBottom: 3 }}
+                                    variant="outlined"
+                                    error={!!errors.username}
+                                    helperText={errors.username && 'username is required.'}
+                                />
+                                <TextField
                                     {...register('email', { required: true })}
                                     label="Email"
                                     fullWidth
@@ -105,16 +116,6 @@ const SignIn = () => {
                                     variant="outlined"
                                     error={!!errors.password}
                                     helperText={errors.password && 'password is required.'}
-                                />
-                                <TextField
-                                    {...register('username')}
-                                    label="username"
-                                    fullWidth
-                                    type={"username"}
-                                    sx={{ marginBottom: 3 }}
-                                    variant="outlined"
-                                    error={!!errors.username}
-                                    helperText={errors.username && 'username is required.'}
                                 />
                                 <Grid sx={{ display: 'flex', justifyContent: 'center', paddingBottom: 3 }}>
                                     <Button type='submit' variant='contained'>

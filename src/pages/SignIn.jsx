@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import CopyRights from '../components/CopyRights';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { toast, Toaster } from 'react-hot-toast';
 
 const defaultTheme = createTheme();
 
@@ -21,20 +22,29 @@ const SignIn = () => {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
 
     const onSubmit = (data) => {
         console.log("eeeeeeee", data);
-        debugger;
-        const apiUrl = 'http://localhost:3001/signin';
+        // debugger;
+        const apiUrl = 'http://localhost:3001/login';
         const userData = {
             email: data.email,
             password: data.password,
         };
         axios.post(apiUrl, userData)
             .then(response => {
+                reset()
                 console.log("redfghjnkm", response.data);
+                if (response.data.login) {
+                    navigate("/dashboard", { state: response.data.userDetailes })
+                    localStorage.setItem('token', response.data.token);
+                }
+                else {
+                    toast.error(response.data.msg)
+                }
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -43,7 +53,7 @@ const SignIn = () => {
 
     return (
         <ThemeProvider theme={defaultTheme}>
-            <Grid container  sx={{ height: '100vh' }}>
+            <Grid container sx={{ height: '100vh' }}>
                 <CssBaseline />
                 <Grid
                     item
@@ -60,6 +70,7 @@ const SignIn = () => {
                     }}
                 />
                 <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
+                    <Toaster />
                     <Box
                         sx={{
                             my: 8,
@@ -71,7 +82,7 @@ const SignIn = () => {
                     >
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         </Avatar>
-                        <Typography component="h1" variant="h5" sx={{marginBottom: 3}}>
+                        <Typography component="h1" variant="h5" sx={{ marginBottom: 3 }}>
                             Sign in
                         </Typography>
                         <Box sx={{ mt: 1 }}>
@@ -87,7 +98,7 @@ const SignIn = () => {
                                     helperText={errors.email && 'email is required.'}
                                 />
                                 <TextField
-                                    {...register('password')}
+                                    {...register('password',  { required: true })}
                                     label="Password"
                                     fullWidth
                                     type={"password"}
