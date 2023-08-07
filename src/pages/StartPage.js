@@ -1,14 +1,22 @@
 import { Box, Button, Grid } from '@mui/material'
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../image/paper-surrounded-finance-element.jpg';
 
 const StartPage = () => {
     const navigate = useNavigate();
+    const isAuthenticated = localStorage.getItem('token');
+
+    useEffect(()=>{
+        if(isAuthenticated){
+            navigate("/dashboard")
+        }
+    },[])
 
     const navigateToDashboard = () => {
-        navigate('/dashboard');
+        navigate('/login');
     };
+    
     return (
 
         <Box

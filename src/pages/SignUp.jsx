@@ -34,7 +34,7 @@ const SignIn = () => {
             email: data.email,
             password: data.password,
         };
-        axios.post(apiUrl, userData)
+        axios.post(apiUrl, userData , {withCredentials : true})
             .then(response => {
                 reset()
                 if (response.data.signup) {
@@ -119,7 +119,7 @@ const SignIn = () => {
                                 />
                                 <Grid sx={{ display: 'flex', justifyContent: 'center', paddingBottom: 3 }}>
                                     <Button type='submit' variant='contained'>
-                                        sign in
+                                        sign Up
                                     </Button>
                                 </Grid>
 

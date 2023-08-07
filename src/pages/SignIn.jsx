@@ -14,11 +14,19 @@ import CopyRights from '../components/CopyRights';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
 
 const defaultTheme = createTheme();
 
 const SignIn = () => {
     const navigate = useNavigate();
+    const isAuthenticated = localStorage.getItem('token');
+    
+    useEffect(()=>{
+        if(isAuthenticated){
+            navigate("/dashboard")
+        }
+    },[])
     const {
         register,
         handleSubmit,
@@ -34,7 +42,7 @@ const SignIn = () => {
             email: data.email,
             password: data.password,
         };
-        axios.post(apiUrl, userData)
+        axios.post(apiUrl, userData, {withCredentials : true})
             .then(response => {
                 reset()
                 console.log("redfghjnkm", response.data);
