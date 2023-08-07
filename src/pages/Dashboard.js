@@ -3,6 +3,9 @@ import { Avatar, Backdrop, Box, Button, Card, Fade, Modal, Stack, TextField, Typ
 import DatePicker from '@mui/lab/DatePicker';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+// import Cookies from 'js-cookie';
+// import { withCookies } from "react-cookie";
+import Cookies from 'js-cookie';
 
 
 const style = {
@@ -23,13 +26,20 @@ const Dashboard = () => {
     const navigate = useNavigate()
     const location = useLocation();
     const userdata = location.state;
-    const isAuthenticated = localStorage.getItem('token');
+    // const isAuthenticated = localStorage.getItem('token');
     
+    console.log("kkkkkkkk", Cookies.get('token'));
     useEffect(()=>{
-        if(!isAuthenticated){
-            navigate("/")
-        }
+        // const name = Cookies.get('token');
+    
+
     },[])
+    
+    // useEffect(()=>{
+    //     if(!isAuthenticated){
+    //         navigate("/")
+    //     }
+    // },[])
 
     const [open, setOpen] = React.useState(false);
     const [type, setType] = React.useState("");
@@ -50,6 +60,12 @@ const Dashboard = () => {
     } = useForm();
 
     const addRow = () => {
+
+    }
+
+    const logout = ()=>{
+        localStorage.removeItem("token");
+        navigate("/login")
 
     }
 
@@ -141,6 +157,7 @@ const Dashboard = () => {
                     </Box>
                 </Box>
             </Card>
+            <Button onClick={logout}>Logout</Button>
             <Box sx={{ position: 'absolute', bottom: '7vh', right: '3vw' }}>
                 <Button sx={{ marginRight: 3 }} variant='contained' onClick={handleOpenIncome} >Add Your INcome</Button>
                 <Button variant='contained' onClick={handleOpenExpenses}>Add Your Expense</Button>

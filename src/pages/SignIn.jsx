@@ -15,40 +15,45 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const defaultTheme = createTheme();
 
 const SignIn = () => {
     const navigate = useNavigate();
-    const isAuthenticated = localStorage.getItem('token');
+    // const isAuthenticated = localStorage.getItem('token');
     
-    useEffect(()=>{
-        if(isAuthenticated){
-            navigate("/dashboard")
-        }
-    },[])
+    
+    // useEffect(()=>{
+    //     if(isAuthenticated){
+    //         navigate("/dashboard")
+    //     }
+    // },[])
+    
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
     } = useForm();
+    
+    
 
     const onSubmit = (data) => {
         console.log("eeeeeeee", data);
-        // debugger;
         const apiUrl = 'http://localhost:3001/login';
         const userData = {
             email: data.email,
             password: data.password,
         };
-        axios.post(apiUrl, userData, {withCredentials : true})
+        axios.post(apiUrl, userData)
             .then(response => {
                 reset()
                 console.log("redfghjnkm", response.data);
                 if (response.data.login) {
                     navigate("/dashboard", { state: response.data.userDetailes })
-                    localStorage.setItem('token', response.data.token);
+                    // localStorage.setItem('token', response.data.token);
+                    Cookies.set('token',response.data.token, {expires : 7})
                 }
                 else {
                     toast.error(response.data.msg)

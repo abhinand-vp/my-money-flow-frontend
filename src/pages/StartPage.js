@@ -5,13 +5,13 @@ import backgroundImage from '../image/paper-surrounded-finance-element.jpg';
 
 const StartPage = () => {
     const navigate = useNavigate();
-    const isAuthenticated = localStorage.getItem('token');
+    // const isAuthenticated = localStorage.getItem('token');
 
-    useEffect(()=>{
-        if(isAuthenticated){
-            navigate("/dashboard")
-        }
-    },[])
+    // useEffect(()=>{
+    //     if(isAuthenticated){
+    //         navigate("/dashboard")
+    //     }
+    // },[])
 
     const navigateToDashboard = () => {
         navigate('/login');

@@ -13,10 +13,20 @@ import CopyRights from '../components/CopyRights';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import toast, { Toaster } from "react-hot-toast";
+import { useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const defaultTheme = createTheme();
 
 const SignIn = () => {
+    const isAuthenticated = localStorage.getItem('token');
+    
+    useEffect(()=>{
+        if(isAuthenticated){
+            navigate("/dashboard")
+        }
+    },[])
+    
     const navigate = useNavigate();
     const {
         register,
@@ -38,8 +48,8 @@ const SignIn = () => {
             .then(response => {
                 reset()
                 if (response.data.signup) {
+                    Cookies.set('token',response.data.token, {expires : 7})
                     navigate("/dashboard");
-                    toast.success('Successfully toasted!')
                 }
                 else {
                     toast.error(response.data.msg)
