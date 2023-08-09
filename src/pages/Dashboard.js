@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { Avatar, Backdrop, Box, Button, Card, Fade, Modal, Stack, TextField, Typography } from '@mui/material'
 import DatePicker from '@mui/lab/DatePicker';
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
-// import Cookies from 'js-cookie';
-// import { withCookies } from "react-cookie";
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 
@@ -24,22 +22,14 @@ const style = {
 
 const Dashboard = () => {
     const navigate = useNavigate()
-    const location = useLocation();
-    const userdata = location.state;
-    // const isAuthenticated = localStorage.getItem('token');
-    
-    console.log("kkkkkkkk", Cookies.get('token'));
-    useEffect(()=>{
-        // const name = Cookies.get('token');
-    
 
-    },[])
-    
-    // useEffect(()=>{
-    //     if(!isAuthenticated){
-    //         navigate("/")
-    //     }
-    // },[])
+    useEffect(() => {
+        const localCookies = Cookies.get('token')
+        console.log("localCookies", localCookies);
+        if (!localCookies) {
+            navigate("/login")
+        }
+    }, [])
 
     const [open, setOpen] = React.useState(false);
     const [type, setType] = React.useState("");
@@ -59,11 +49,7 @@ const Dashboard = () => {
         formState: { errors },
     } = useForm();
 
-    const addRow = () => {
-
-    }
-
-    const logout = ()=>{
+    const logout = () => {
         localStorage.removeItem("token");
         navigate("/login")
 
@@ -133,7 +119,6 @@ const Dashboard = () => {
 
                                 {/* <DatePicker label="Basic date picker" /> */}
                                 <DatePicker />
-                                <Button onClick={addRow}>+</Button>
                                 <Button type='submit' sx={{ float: 'right', mt: 2 }} variant='contained'>
                                     {buttonSubmit}
                                 </Button>
@@ -150,7 +135,7 @@ const Dashboard = () => {
                     <Avatar variant="rounded" src="avatar1.jpg" />
                     <Box sx={{ display: 'flex', marginLeft: 10 }}>
                         <Stack>
-                            <Typography fontWeight={700}>{userdata?.userName}</Typography>
+                            <Typography fontWeight={700}>{ }</Typography>
                             <Typography variant="body2" color="text.secondary">
                             </Typography>
                         </Stack>

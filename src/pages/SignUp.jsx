@@ -19,13 +19,6 @@ import Cookies from 'js-cookie';
 const defaultTheme = createTheme();
 
 const SignIn = () => {
-    const isAuthenticated = localStorage.getItem('token');
-    
-    useEffect(()=>{
-        if(isAuthenticated){
-            navigate("/dashboard")
-        }
-    },[])
     
     const navigate = useNavigate();
     const {
@@ -34,6 +27,14 @@ const SignIn = () => {
         reset,
         formState: { errors },
     } = useForm();
+
+    useEffect(()=>{
+        const localCookies = Cookies.get('token')
+        console.log("localCookies", localCookies);
+          if(localCookies){
+              navigate("/dashboard")
+          }
+      },[])
 
     const onSubmit = (data) => {
         console.log("eeeeeeee", data);

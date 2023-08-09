@@ -2,6 +2,7 @@ import { Box, Button, Grid } from '@mui/material'
 import React, {useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../image/paper-surrounded-finance-element.jpg';
+import Cookies from 'js-cookie';
 
 const StartPage = () => {
     const navigate = useNavigate();
@@ -12,6 +13,16 @@ const StartPage = () => {
     //         navigate("/dashboard")
     //     }
     // },[])
+
+    
+    useEffect(()=>{
+        const localCookies = Cookies.get('token')
+        console.log("localCookies", localCookies);
+          if(localCookies){
+              navigate("/dashboard")
+          }
+      },[])
+
 
     const navigateToDashboard = () => {
         navigate('/login');
