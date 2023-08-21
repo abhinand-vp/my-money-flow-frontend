@@ -34,15 +34,6 @@ const SignIn = () => {
     } = useForm();
 
 
-    useEffect(() => {
-        const localCookies = Cookies.get('token')
-        console.log("localCookies", localCookies);
-        if (localCookies) {
-            navigate("/dashboard")
-        }
-    }, [])
-
-
     const onSubmit = (data) => {
         const userData = {
             email: data.email,
@@ -51,14 +42,10 @@ const SignIn = () => {
 
         dispatch(getUser(userData)).then((res) => {
             console.log("reeeeeee", res);
-            debugger;
             if (res.payload.login) {
-                navigate("/dashboard");
                 reset();
                 Cookies.set('token', res.payload.token, { expires: 7 })
-                // Cookies.set('email', data.email, {expires : 7})
-                // Cookies.set('password', data.password, {expires : 7})
-
+                navigate("/dashboard");
             }
             else {
                 toast.error(res.payload.msg)

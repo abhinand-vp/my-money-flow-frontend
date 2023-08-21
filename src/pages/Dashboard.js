@@ -4,6 +4,10 @@ import DatePicker from '@mui/lab/DatePicker';
 import { useForm } from 'react-hook-form';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { getDashboard } from '../store/userDetails/UserActions';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 
 const style = {
@@ -24,9 +28,23 @@ const Dashboard = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const localCookies = Cookies.get('token')
-        console.log("localCookies", localCookies);
-        if (!localCookies) {
+        const userId = Cookies.get('userId')
+        const token = Cookies.get("token")
+        const headers = {
+            Authorization: `Bearer ${token}`
+        };
+
+        console.log({ headers });
+        axios.get('http://localhost:3001/dashboard', { headers })
+            .then(response => {
+                if (!response.data.useridExist) {
+                    navigate("/login")
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        if (!userId) {
             navigate("/login")
         }
     }, [])
@@ -54,7 +72,6 @@ const Dashboard = () => {
         navigate("/login")
 
     }
-
 
     const handleClose = () => setOpen(false);
 

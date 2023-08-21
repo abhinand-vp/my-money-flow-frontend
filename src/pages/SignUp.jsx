@@ -19,7 +19,7 @@ import Cookies from 'js-cookie';
 const defaultTheme = createTheme();
 
 const SignIn = () => {
-    
+
     const navigate = useNavigate();
     const {
         register,
@@ -28,28 +28,26 @@ const SignIn = () => {
         formState: { errors },
     } = useForm();
 
-    useEffect(()=>{
+    useEffect(() => {
         const localCookies = Cookies.get('token')
         console.log("localCookies", localCookies);
-          if(localCookies){
-              navigate("/dashboard")
-          }
-      },[])
+        if (localCookies) {
+            navigate("/dashboard")
+        }
+    }, [])
 
     const onSubmit = (data) => {
-        console.log("eeeeeeee", data);
-        debugger;
         const apiUrl = 'http://localhost:3001/signup';
         const userData = {
             name: data.username,
             email: data.email,
             password: data.password,
         };
-        axios.post(apiUrl, userData , {withCredentials : true})
+        axios.post(apiUrl, userData, { withCredentials: true })
             .then(response => {
                 reset()
                 if (response.data.signup) {
-                    Cookies.set('token',response.data.token, {expires : 7})
+                    Cookies.set('token', response.payload.token, { expires: 7 })
                     navigate("/dashboard");
                 }
                 else {

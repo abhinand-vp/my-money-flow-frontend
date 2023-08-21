@@ -17,7 +17,6 @@ const StartPage = () => {
     
     useEffect(()=>{
         const localCookies = Cookies.get('token')
-        console.log("localCookies", localCookies);
           if(localCookies){
               navigate("/dashboard")
           }
