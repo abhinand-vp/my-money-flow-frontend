@@ -33,6 +33,13 @@ const SignIn = () => {
         formState: { errors },
     } = useForm();
 
+    useEffect(()=>{
+        const localCookies = Cookies.get('token')
+        if (localCookies) {
+            navigate("/dashboard")
+        }
+    },[])
+
 
     const onSubmit = (data) => {
         const userData = {

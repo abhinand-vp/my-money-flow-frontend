@@ -22,7 +22,6 @@ export const getUser = createAsyncThunk("user/getUser", async (reqData,{ rejectW
 
 //dashboard
 export const getDashboard = createAsyncThunk("user/getDashboard", async (reqData,{ rejectWithValue }) => {
-  debugger;
   try {
     const { data } = await axios.get("http://localhost:3001/dashboard" );
 

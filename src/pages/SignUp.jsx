@@ -30,7 +30,6 @@ const SignIn = () => {
 
     useEffect(() => {
         const localCookies = Cookies.get('token')
-        console.log("localCookies", localCookies);
         if (localCookies) {
             navigate("/dashboard")
         }
@@ -43,11 +42,12 @@ const SignIn = () => {
             email: data.email,
             password: data.password,
         };
-        axios.post(apiUrl, userData, { withCredentials: true })
+        axios.post(apiUrl, userData)
             .then(response => {
+                console.log("response", response);
                 reset()
                 if (response.data.signup) {
-                    Cookies.set('token', response.payload.token, { expires: 7 })
+                    Cookies.set('token', response.data.token, { expires: 7 })
                     navigate("/dashboard");
                 }
                 else {

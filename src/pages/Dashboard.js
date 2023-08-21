@@ -37,16 +37,20 @@ const Dashboard = () => {
         console.log({ headers });
         axios.get('http://localhost:3001/dashboard', { headers })
             .then(response => {
-                if (!response.data.useridExist) {
-                    navigate("/login")
-                }
+                console.log("response", response);
+                // if (!response.data.useridExist) {
+                //     navigate("/login")
+                // }
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-        if (!userId) {
-            navigate("/login")
-        }
+
+            const localCookies = Cookies.get('token')
+            if(!localCookies){
+                navigate("/login")
+            }
+
     }, [])
 
     const [open, setOpen] = React.useState(false);
