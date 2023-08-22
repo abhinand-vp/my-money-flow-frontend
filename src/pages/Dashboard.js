@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Avatar, Backdrop, Box, Button, Card, Fade, Modal, Stack, TextField, Typography } from '@mui/material'
-import DatePicker from '@mui/lab/DatePicker';
 import { useForm } from 'react-hook-form';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -8,6 +7,10 @@ import { getDashboard } from '../store/userDetails/UserActions';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useState } from 'react';
 
 
 const style = {
@@ -21,33 +24,32 @@ const style = {
     p: 4,
     '@media (max-width: 600px)': {
         width: '80vw'
-    },
+    }
 };
 
 const Dashboard = () => {
     const navigate = useNavigate()
-
     useEffect(() => {
-        const userId = Cookies.get('userId')
-        const token = Cookies.get("token")
-        const headers = {
-            Authorization: `Bearer ${token}`
-        };
-
-        console.log({ headers });
-        axios.get('http://localhost:3001/dashboard', { headers })
+        axios.get('http://localhost:3001/dashboard', { withCredentials: true })
             .then(response => {
                 console.log("response", response);
+                console.log(response.data.validToken);
+                if (response.data.validToken === false) {
+                    console.log("Invalid token detected");
+                    navigate("*");
+                }
             })
             .catch(error => {
-                navigate("*")
-                console.error('Error fetching data:', error);
+                console.log("Error response", error.response);
             });
 
     }, [])
 
     const [open, setOpen] = React.useState(false);
     const [type, setType] = React.useState("");
+    const [date, setDate] = useState(null)
+
+    console.log("daaaaaaaaaaa", date);
 
     const handleOpenIncome = () => {
         setOpen(true)
@@ -72,6 +74,25 @@ const Dashboard = () => {
 
     const handleClose = () => setOpen(false);
 
+    const onSubmit = data => {
+        let params = {
+            income_amount: data.amount,
+            income_desc: data.desc,
+            income_date: date
+        }
+
+        console.log("params", params);
+        axios.post("http://localhost:3001/add-income", params, { withCredentials: true })
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch(error => {
+            console.log("Error response", error);
+        });
+
+    }
+
+
     const modalTitle = type === 'income' ? 'Add Your Income 💯' : 'Add Your Expenses 💯';
     const buttonSubmit = type === 'income' ? 'Add Income' : 'Add Expenses';
     return (
@@ -91,13 +112,12 @@ const Dashboard = () => {
             >
                 <Fade in={open}>
                     <Box sx={style}>
-                        {/* <form onSubmit={handleSubmit(onSubmit)}> */}
                         {type === 'income' && (
                             <>
                                 <Typography sx={{ marginBottom: 3 }} variant="h5" component="h2">
                                     {modalTitle}
                                 </Typography>
-                                <form onSubmit={handleSubmit((data) => console.log("dfghjk", data))}>
+                                <form onSubmit={handleSubmit(onSubmit)}>
                                     <TextField
                                         {...register('amount', { required: true })}
                                         label="Amount"
@@ -115,6 +135,16 @@ const Dashboard = () => {
                                         sx={{ marginBottom: 3 }}
                                         variant="outlined"
                                     />
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            fullWidth
+                                            sx={{ marginBottom: 3 }}
+                                            label="Select Date"
+                                            value={date}
+                                            onChange={(newValue) => setDate(newValue)}
+                                            renderInput={(props) => <TextField {...props} />}
+                                        />
+                                    </LocalizationProvider>
                                     <Button type='submit' variant='contained'>
                                         {buttonSubmit}
                                     </Button>
@@ -129,34 +159,29 @@ const Dashboard = () => {
                                 </Typography>
                                 <TextField fullWidth label="Amount" sx={{ marginBottom: 2 }} variant="outlined" />
                                 <TextField fullWidth label="Description" variant="outlined" />
-                                <DatePicker />
-
-                                {/* <DatePicker label="Basic date picker" /> */}
-                                <DatePicker />
                                 <Button type='submit' sx={{ float: 'right', mt: 2 }} variant='contained'>
                                     {buttonSubmit}
                                 </Button>
                             </>
                         )}
-
-                        {/* </form> */}
-
                     </Box>
                 </Fade>
             </Modal>
-            <Card sx={{ width: '80vw', margin: 'auto' }}>
-                <Box sx={{ p: 2, display: 'flex' }}>
+            <Card sx={{ width: '90vw', margin: 'auto' }}>
+                <Box sx={{ p: 2, display: 'flex' , justifyContent : 'space-between'}}>
                     <Avatar variant="rounded" src="avatar1.jpg" />
-                    <Box sx={{ display: 'flex', marginLeft: 10 }}>
+                    <Box sx={{ display: 'flex'}}>
                         <Stack>
                             <Typography fontWeight={700}>{ }</Typography>
                             <Typography variant="body2" color="text.secondary">
+                            <Button onClick={logout}>Logout</Button>
                             </Typography>
                         </Stack>
                     </Box>
                 </Box>
             </Card>
-            <Button onClick={logout}>Logout</Button>
+            <Box sx={{float: 'right'}}>
+            </Box>
             <Box sx={{ position: 'absolute', bottom: '7vh', right: '3vw' }}>
                 <Button sx={{ marginRight: 3 }} variant='contained' onClick={handleOpenIncome} >Add Your INcome</Button>
                 <Button variant='contained' onClick={handleOpenExpenses}>Add Your Expense</Button>
