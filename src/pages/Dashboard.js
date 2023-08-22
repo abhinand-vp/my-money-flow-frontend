@@ -38,18 +38,11 @@ const Dashboard = () => {
         axios.get('http://localhost:3001/dashboard', { headers })
             .then(response => {
                 console.log("response", response);
-                // if (!response.data.useridExist) {
-                //     navigate("/login")
-                // }
             })
             .catch(error => {
+                navigate("*")
                 console.error('Error fetching data:', error);
             });
-
-            const localCookies = Cookies.get('token')
-            if(!localCookies){
-                navigate("/login")
-            }
 
     }, [])
 

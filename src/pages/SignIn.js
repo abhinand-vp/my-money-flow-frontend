@@ -12,7 +12,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import CopyRights from '../components/CopyRights';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
@@ -39,7 +38,6 @@ const SignIn = () => {
             navigate("/dashboard")
         }
     },[])
-
 
     const onSubmit = (data) => {
         const userData = {

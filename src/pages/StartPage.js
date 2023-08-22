@@ -6,14 +6,6 @@ import Cookies from 'js-cookie';
 
 const StartPage = () => {
     const navigate = useNavigate();
-    // const isAuthenticated = localStorage.getItem('token');
-
-    // useEffect(()=>{
-    //     if(isAuthenticated){
-    //         navigate("/dashboard")
-    //     }
-    // },[])
-
     
     useEffect(()=>{
         const localCookies = Cookies.get('token')
