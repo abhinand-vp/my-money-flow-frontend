@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 import { Avatar, Backdrop, Box, Button, Card, Fade, Modal, Stack, TextField, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import { getDashboard } from '../store/userDetails/UserActions';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 
 
 const style = {
@@ -49,8 +47,7 @@ const Dashboard = () => {
     const [type, setType] = React.useState("");
     const [date, setDate] = useState(null)
 
-    console.log("daaaaaaaaaaa", date);
-
+    
     const handleOpenIncome = () => {
         setOpen(true)
         setType("income")
@@ -65,24 +62,33 @@ const Dashboard = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-
+    
     const logout = () => {
-        localStorage.removeItem("token");
+        Cookies.remove('token');
         navigate("/login")
-
+        
     }
-
+    
     const handleClose = () => setOpen(false);
-
+    
     const onSubmit = data => {
+        console.log("daaaaaaaaaaa", date);
+        const inputDate = new Date(date)
+        const formattedDate = inputDate.toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            timeZoneName: 'short'
+          });
+          console.log(formattedDate);
         let params = {
             income_amount: data.amount,
             income_desc: data.desc,
-            income_date: date
+            income_date: formattedDate
         }
 
         console.log("params", params);
-        axios.post("http://localhost:3001/add-income", params, { withCredentials: true })
+        axios.post("http://localhost:3001/add-income", {params}, { withCredentials: true })
         .then((res)=>{
             console.log(res);
         })
