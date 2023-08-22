@@ -4,16 +4,15 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function PageNotFound() {
-
-    useEffect(()=>{
-        Cookies.remove('token');
-
-    },[])
     const navigate = useNavigate()
+    useEffect(() => {
+        Cookies.remove('token');
+    }, [])
+
     return (
         <div className='pageNotFound'>
-        <div>You entered a wrong Page</div>
-        <Button variant='contained' onClick={()=>navigate("/login")}>Back to Login</Button>
+            <div>You entered a wrong Page</div>
+            <Button variant='contained' onClick={() => navigate("/login")}>Back to Login Page</Button>
         </div>
     )
 }

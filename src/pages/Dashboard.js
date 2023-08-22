@@ -3,7 +3,7 @@ import { Avatar, Backdrop, Box, Button, Card, Fade, Modal, Stack, TextField, Typ
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -30,10 +30,8 @@ const Dashboard = () => {
     useEffect(() => {
         axios.get('http://localhost:3001/dashboard', { withCredentials: true })
             .then(response => {
-                console.log("response", response);
                 console.log(response.data.validToken);
                 if (response.data.validToken === false) {
-                    console.log("Invalid token detected");
                     navigate("*");
                 }
             })
@@ -47,7 +45,7 @@ const Dashboard = () => {
     const [type, setType] = React.useState("");
     const [date, setDate] = useState(null)
 
-    
+
     const handleOpenIncome = () => {
         setOpen(true)
         setType("income")
@@ -62,25 +60,23 @@ const Dashboard = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    
+
     const logout = () => {
         Cookies.remove('token');
         navigate("/login")
-        
+
     }
-    
+
     const handleClose = () => setOpen(false);
-    
+
     const onSubmit = data => {
-        console.log("daaaaaaaaaaa", date);
         const inputDate = new Date(date)
         const formattedDate = inputDate.toLocaleString('en-US', {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
             timeZoneName: 'short'
-          });
-          console.log(formattedDate);
+        });
         let params = {
             income_amount: data.amount,
             income_desc: data.desc,
@@ -88,13 +84,13 @@ const Dashboard = () => {
         }
 
         console.log("params", params);
-        axios.post("http://localhost:3001/add-income", {params}, { withCredentials: true })
-        .then((res)=>{
-            console.log(res);
-        })
-        .catch(error => {
-            console.log("Error response", error);
-        });
+        axios.post("http://localhost:3001/add-income", { params }, { withCredentials: true })
+            .then((response) => {
+                toast.success(response.data.msg)
+            })
+            .catch(error => {
+                console.log("Error response", error);
+            });
 
     }
 
@@ -103,6 +99,7 @@ const Dashboard = () => {
     const buttonSubmit = type === 'income' ? 'Add Income' : 'Add Expenses';
     return (
         <Box sx={{ padding: 3 }}>
+            <Toaster />
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -174,19 +171,19 @@ const Dashboard = () => {
                 </Fade>
             </Modal>
             <Card sx={{ width: '90vw', margin: 'auto' }}>
-                <Box sx={{ p: 2, display: 'flex' , justifyContent : 'space-between'}}>
+                <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between' }}>
                     <Avatar variant="rounded" src="avatar1.jpg" />
-                    <Box sx={{ display: 'flex'}}>
+                    <Box sx={{ display: 'flex' }}>
                         <Stack>
                             <Typography fontWeight={700}>{ }</Typography>
                             <Typography variant="body2" color="text.secondary">
-                            <Button onClick={logout}>Logout</Button>
+                                <Button onClick={logout}>Logout</Button>
                             </Typography>
                         </Stack>
                     </Box>
                 </Box>
             </Card>
-            <Box sx={{float: 'right'}}>
+            <Box sx={{ float: 'right' }}>
             </Box>
             <Box sx={{ position: 'absolute', bottom: '7vh', right: '3vw' }}>
                 <Button sx={{ marginRight: 3 }} variant='contained' onClick={handleOpenIncome} >Add Your INcome</Button>
