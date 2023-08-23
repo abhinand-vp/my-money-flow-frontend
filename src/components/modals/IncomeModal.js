@@ -25,17 +25,14 @@ const style = {
 const IncomeModal = ({ openMOdal, setOpenModal }) => {
 
     useEffect(() => {
-        { console.log("LLLLLL", true); }
         if (isOpen == 'false') {
             setIsOpen(true)
         }
     }, [])
 
-    console.log("openMOdal0", openMOdal);
     const [incomeDate, setIncomeDate] = useState(null)
-    const [isOpen, setIsOpen] = useState(true)
-
-    console.log("onammmmm", isOpen);
+    const [isOpen, setIsOpen] = useState(true);
+    const [loading, setLoading] = useState(false)
 
     const {
         register,
@@ -46,6 +43,7 @@ const IncomeModal = ({ openMOdal, setOpenModal }) => {
     const handleClose = () => { }
 
     const onSubmit = data => {
+        setLoading(true)
         const inputDate = new Date(incomeDate)
         const formattedDate = inputDate.toLocaleString('en-US', {
             year: 'numeric',
@@ -57,12 +55,11 @@ const IncomeModal = ({ openMOdal, setOpenModal }) => {
             income_desc: data.desc,
             income_date: formattedDate
         }
-
-        console.log("params", params);
         axios.post("http://localhost:3001/add-income", { params }, { withCredentials: true })
             .then((response) => {
                 toast.success(response.data.msg);
                 setOpenModal(false);
+                setLoading(false)
             })
             .catch(error => {
                 console.log("Error response", error);
@@ -121,8 +118,12 @@ const IncomeModal = ({ openMOdal, setOpenModal }) => {
                                                 renderInput={(props) => <TextField {...props} />}
                                             />
                                         </LocalizationProvider>
-                                        <Button type='submit' variant='contained'>
-                                            Add Income
+                                        <Button
+                                            type='submit'
+                                            variant={loading ? 'outlined' : 'contained'}
+                                            disabled={loading}
+                                        >
+                                            {loading ? 'Submit' : 'Add Income'}
                                         </Button>
                                     </form>
                                 </>
