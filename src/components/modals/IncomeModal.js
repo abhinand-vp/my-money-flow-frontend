@@ -22,12 +22,18 @@ const style = {
     }
 };
 
-const IncomeModal = ({ openMOdal }) => {
+const IncomeModal = ({ openMOdal, setOpenModal }) => {
 
+    useEffect(() => {
+        { console.log("LLLLLL", true); }
+        if (isOpen == 'false') {
+            setIsOpen(true)
+        }
+    }, [])
 
     console.log("openMOdal0", openMOdal);
     const [incomeDate, setIncomeDate] = useState(null)
-    const [isOpen, setIsOpen] = useState(openMOdal)
+    const [isOpen, setIsOpen] = useState(true)
 
     console.log("onammmmm", isOpen);
 
@@ -56,7 +62,7 @@ const IncomeModal = ({ openMOdal }) => {
         axios.post("http://localhost:3001/add-income", { params }, { withCredentials: true })
             .then((response) => {
                 toast.success(response.data.msg);
-                setIsOpen(false);
+                setOpenModal(false);
             })
             .catch(error => {
                 console.log("Error response", error);
