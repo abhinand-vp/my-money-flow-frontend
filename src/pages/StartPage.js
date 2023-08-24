@@ -1,5 +1,5 @@
-import { Box, Button, Grid } from '@mui/material'
 import React, {useEffect} from 'react'
+import { Box, Button, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../image/paper-surrounded-finance-element.jpg';
 import Cookies from 'js-cookie';
@@ -14,7 +14,6 @@ const StartPage = () => {
           }
       },[])
 
-
     const navigateToDashboard = () => {
         navigate('/login');
     };
@@ -27,7 +26,7 @@ const StartPage = () => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 width: '100vw',
-                height: '100vh', // Set the desired height for your background
+                height: '100vh', 
             }}
         >
             <Grid

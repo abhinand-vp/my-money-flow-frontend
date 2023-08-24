@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-import { Avatar, Box, Button, Card, Stack,  Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react';
+import { Avatar, Box, Button, Card, Stack, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import Cookies from 'js-cookie';
 import IncomeModal from '../components/modals/IncomeModal';
+import ExpenseModal from '../components/modals/ExpenseModal';
 
 
 const Dashboard = () => {
@@ -24,13 +25,16 @@ const Dashboard = () => {
     }, [])
 
     const [open, setOpen] = React.useState(false);
- 
+    const [type, setType] = React.useState();
+
     const handleOpenIncome = () => {
         setOpen(true)
+        setType("income")
     }
 
     const handleOpenExpenses = () => {
-        // setOpen(!open)
+        setOpen(true)
+        setType("expenses")
     }
 
     const logout = () => {
@@ -38,13 +42,21 @@ const Dashboard = () => {
         navigate("/login")
     }
 
-   
+
+
     return (
         <Box sx={{ padding: 3 }}>
             <Toaster />
-            {open && (
-            <IncomeModal openMOdal={open}  setOpenModal ={setOpen}/>
-            )}
+                { type == "income" ? (
+                    <>
+                        <IncomeModal openMOdal={open} setOpenModal={setOpen} />
+                    </>
+                ) : (
+                    <>
+                        <ExpenseModal openMOdal={open} setOpenModal={setOpen} />
+                    </>
+                )}
+
             <Card sx={{ width: '90vw', margin: 'auto' }}>
                 <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between' }}>
                     <Avatar variant="rounded" src="avatar1.jpg" />

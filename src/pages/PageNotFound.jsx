@@ -1,6 +1,6 @@
+import React, { useEffect } from 'react'
 import { Button } from '@mui/material'
 import Cookies from 'js-cookie';
-import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function PageNotFound() {

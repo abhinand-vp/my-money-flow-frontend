@@ -7,6 +7,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const style = {
     position: 'absolute',
@@ -22,7 +24,7 @@ const style = {
     }
 };
 
-const IncomeModal = ({ openMOdal, setOpenModal }) => {
+const ExpenseModal = ({ openMOdal, setOpenModal }) => {
 
     useEffect(() => {
         if (isOpen == 'false') {
@@ -30,36 +32,51 @@ const IncomeModal = ({ openMOdal, setOpenModal }) => {
         }
     }, [])
 
-    const [incomeDate, setIncomeDate] = useState(null)
+    const [expensesDate, setExpensesDate] = useState(null)
     const [isOpen, setIsOpen] = useState(true);
     const [loading, setLoading] = useState(false)
+    const [inputs, setInputs] = useState([{ desc: "", samount: "" }])
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm();
+
 
     const handleClose = () => { }
+    const handleAddInputs = () => {
+        setInputs([...inputs, { desc: "", samount: "" }])
+    }
 
-    const onSubmit = data => {
-        setLoading(true)
-        const inputDate = new Date(incomeDate)
+
+    const handleChange = (e, i) => {
+        const { name, value } = e.target;
+        const onChangevalue = [...inputs]
+        onChangevalue[i][name] = value
+        setInputs(onChangevalue);
+    }
+
+    const handleDelete = (i) => {
+        const deleteSelectedInput = [...inputs]
+        deleteSelectedInput.splice(i, 1)
+        setInputs(deleteSelectedInput)
+    }
+
+
+    const addExpenses = () => {
+        console.log("inputs", inputs);
+        console.log("expensesDate", expensesDate);
+        const inputDate = new Date(expensesDate)
         const formattedDate = inputDate.toLocaleString('en-US', {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
         });
         let params = {
-            income_amount: data.amount,
-            income_desc: data.desc,
+            income_amount: inputs.samount,
+            income_desc: inputs.desc,
             income_date: formattedDate
         }
-        axios.post("http://localhost:3001/add-income", { params }, { withCredentials: true })
+
+        console.log("params", params);
+        axios.post("http://localhost:3001/add-expense", { params }, { withCredentials: true })
             .then((response) => {
-                toast.success(response.data.msg);
-                reset();
                 setOpenModal(false);
                 setLoading(false)
             })
@@ -90,45 +107,39 @@ const IncomeModal = ({ openMOdal, setOpenModal }) => {
                             <Box sx={style}>
                                 <>
                                     <Typography sx={{ marginBottom: 3 }} variant="h5" component="h2">
-                                        Add Your Income 💯
+                                        Add Your Expense 💯
                                     </Typography>
-                                    <form onSubmit={handleSubmit(onSubmit)}>
-                                        <TextField
-                                            {...register('amount', { required: true })}
-                                            label="Amount"
-                                            fullWidth
-                                            variant="outlined"
-                                            type='number'
-                                            sx={{ marginBottom: 3 }}
-                                            error={!!errors.amount}
-                                            helperText={errors.amount && 'Amount is required.'}
-                                        />
-                                        <TextField
-                                            {...register('desc')}
-                                            label="Description"
-                                            fullWidth
-                                            sx={{ marginBottom: 3 }}
-                                            variant="outlined"
-                                        />
+                                    <Box sx={{ display: 'flex', gap: 10 }}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DatePicker
                                                 fullWidth
                                                 sx={{ marginBottom: 3 }}
                                                 label="Select Date"
-                                                value={incomeDate}
-                                                onChange={(newValue) => setIncomeDate(newValue)}
+                                                value={expensesDate}
+                                                onChange={(newValue) => setExpensesDate(newValue)}
                                                 renderInput={(props) => <TextField {...props} />}
                                             />
                                         </LocalizationProvider>
-                                        <Button
-                                            type='submit'
-                                            variant={loading ? 'outlined' : 'contained'}
-                                            disabled={loading}
-                                        >
-                                            {loading ? 'Submit' : 'Add Income'}
-                                        </Button>
-                                        <Button sx={{ position: 'absolute', right: 10, top: 10, color: 'black' }} onClick={() => setOpenModal(false)}>X</Button>
-                                    </form>
+
+                                        <Button onClick={handleAddInputs} variant='contained' sx={{ width: 50, height: 50 }} >Add</Button>
+                                    </Box>
+
+                                    {inputs.map((val, index) =>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, marginTop: 3, marginBottom: 3 }}>
+                                            <TextField fullWidth name="desc" label="desc" value={val.desc} onChange={(e) => handleChange(e, index)} />
+                                            <TextField type="number" label="Amount" name="samount" value={val.samount} onChange={(e) => handleChange(e, index)} />
+                                            <Button onClick={() => handleDelete(index)} variant='contained'>{<DeleteIcon />}</Button>
+                                        </Box>
+                                    )}
+
+                                    <Button
+                                        type='submit'
+                                        variant={loading ? 'outlined' : 'contained'}
+                                        disabled={loading}
+                                        onClick={addExpenses}
+                                    >
+                                        {loading ? 'Submit' : 'Add Expenses'}
+                                    </Button>
                                 </>
                             </Box>
                         </Fade>
@@ -140,4 +151,4 @@ const IncomeModal = ({ openMOdal, setOpenModal }) => {
     )
 }
 
-export default IncomeModal
+export default ExpenseModal
