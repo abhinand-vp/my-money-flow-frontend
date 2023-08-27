@@ -36,7 +36,6 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
     const [inputs, setInputs] = useState([{ type: "", samount: "" }])
     const [totalExpenses, setTotalExpenses] = useState(0)
 
-    // console.log("inputssss", inputs.map((item)=>{console.log(item.samount);}));
     console.log("totalExpenses", totalExpenses);
 
     useEffect(() => {
@@ -69,8 +68,7 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
 
 
     const addExpenses = () => {
-        console.log("inputs", inputs);
-        console.log("expensesDate", expensesDate);
+        setLoading(true)
         const inputDate = new Date(expensesDate)
         const formattedDate = inputDate.toLocaleString('en-US', {
             year: 'numeric',
@@ -87,6 +85,7 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
         axios.post("http://localhost:3001/add-expense", { expenses }, { withCredentials: true })
             .then((response) => {
                 setOpenModal(false);
+                setInputs([{}])
                 setLoading(false)
                 console.log(response);
             })

@@ -60,6 +60,7 @@ const IncomeModal = ({ openMOdal, setOpenModal }) => {
             .then((response) => {
                 toast.success(response.data.msg);
                 reset();
+                setIncomeDate();
                 setOpenModal(false);
                 setLoading(false)
             })
@@ -120,13 +121,15 @@ const IncomeModal = ({ openMOdal, setOpenModal }) => {
                                                 renderInput={(props) => <TextField {...props} />}
                                             />
                                         </LocalizationProvider>
-                                        <Button
-                                            type='submit'
-                                            variant={loading ? 'outlined' : 'contained'}
-                                            disabled={loading}
-                                        >
-                                            {loading ? 'Submit' : 'Add Income'}
-                                        </Button>
+                                        <Box>
+                                            <Button
+                                                type='submit'
+                                                variant={loading ? 'outlined' : 'contained'}
+                                                disabled={loading}
+                                            >
+                                                {loading ? 'Submit' : 'Add Income'}
+                                            </Button>
+                                        </Box>
                                         <Button sx={{ position: 'absolute', right: 10, top: 10, color: 'black' }} onClick={() => setOpenModal(false)}>X</Button>
                                     </form>
                                 </>
