@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Backdrop, Box, Button, Fade, Modal, TextField, Typography } from '@mui/material'
+import { Backdrop, Box, Button, Fade, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -8,6 +8,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import DeleteIcon from '@mui/icons-material/Delete';
+import InputLabel from '@mui/material/InputLabel';
+
 
 
 const style = {
@@ -35,13 +37,16 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
     const [expensesDate, setExpensesDate] = useState(null)
     const [isOpen, setIsOpen] = useState(true);
     const [loading, setLoading] = useState(false)
-    const [inputs, setInputs] = useState([{ desc: "", samount: "" }])
+    const [inputs, setInputs] = useState([{ type: "", samount: "" }])
+    // const [expenseType, setExpenseType] = useState("");
+
+    console.log("inputsinputs", inputs);
 
 
 
     const handleClose = () => { }
     const handleAddInputs = () => {
-        setInputs([...inputs, { desc: "", samount: "" }])
+        setInputs([...inputs, { type: "", samount: "" }])
     }
 
 
@@ -69,8 +74,7 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
             day: 'numeric',
         });
         let params = {
-            income_amount: inputs.samount,
-            income_desc: inputs.desc,
+            income_amount: inputs,
             income_date: formattedDate
         }
 
@@ -79,6 +83,7 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
             .then((response) => {
                 setOpenModal(false);
                 setLoading(false)
+                console.log(response);
             })
             .catch(error => {
                 console.log("Error response", error);
@@ -126,8 +131,26 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
 
                                     {inputs.map((val, index) =>
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, marginTop: 3, marginBottom: 3 }}>
-                                            <TextField fullWidth name="desc" label="desc" value={val.desc} onChange={(e) => handleChange(e, index)} />
-                                            <TextField type="number" label="Amount" name="samount" value={val.samount} onChange={(e) => handleChange(e, index)} />
+                                            <Select
+                                            fullWidth
+                                                value={val.type}
+                                                onChange={(e) => handleChange(e, index)}
+                                                name="type"
+                                                label="Label"
+
+                                            >
+                                                <MenuItem value="">
+                                                    <em>-</em>
+                                                </MenuItem>
+                                                <MenuItem value="rent">Rent</MenuItem>
+                                                <MenuItem value="food">Food</MenuItem>
+                                                <MenuItem value="grocery">Grocery</MenuItem>
+                                                <MenuItem value="entertainment">Entertainment</MenuItem>
+                                                <MenuItem value="travel">Travel</MenuItem>
+                                                <MenuItem value="personal_needs">Personal Needs</MenuItem>
+                                                <MenuItem value="others">Others</MenuItem>
+                                            </Select>
+                                            <TextField fullWidth type="number" label="Amount" name="samount" value={val.samount} onChange={(e) => handleChange(e, index)} />
                                             <Button onClick={() => handleDelete(index)} variant='contained'>{<DeleteIcon />}</Button>
                                         </Box>
                                     )}
