@@ -80,7 +80,7 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
         let expenses = {
             expenses_amount: inputs,
             expenses_date: formattedDate,
-            total_expenses: 4523
+            total_expenses: totalExpenses
         }
 
         console.log("expenses", expenses);
