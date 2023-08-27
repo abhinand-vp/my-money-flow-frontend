@@ -64,7 +64,7 @@ const Dashboard = () => {
                         <Stack>
                             <Typography fontWeight={700}>{ }</Typography>
                             <Typography variant="body2" color="text.secondary">
-                                <Button onClick={logout}>Logout</Button>
+                                <Button variant='contained' onClick={logout}>Logout</Button>
                             </Typography>
                         </Stack>
                     </Box>

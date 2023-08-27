@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Backdrop, Box, Button, Fade, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
-import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -8,9 +7,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import DeleteIcon from '@mui/icons-material/Delete';
-import InputLabel from '@mui/material/InputLabel';
-
-
 
 const style = {
     position: 'absolute',
@@ -38,11 +34,6 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
     const [isOpen, setIsOpen] = useState(true);
     const [loading, setLoading] = useState(false)
     const [inputs, setInputs] = useState([{ type: "", samount: "" }])
-    // const [expenseType, setExpenseType] = useState("");
-
-    console.log("inputsinputs", inputs);
-
-
 
     const handleClose = () => { }
     const handleAddInputs = () => {
@@ -73,13 +64,14 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
             month: 'numeric',
             day: 'numeric',
         });
-        let params = {
-            income_amount: inputs,
-            income_date: formattedDate
+        let expenses = {
+            expenses_amount: inputs,
+            expenses_date: formattedDate,
+            total_expenses : 4523
         }
 
-        console.log("params", params);
-        axios.post("http://localhost:3001/add-expense", { params }, { withCredentials: true })
+        console.log("expenses", expenses);
+        axios.post("http://localhost:3001/add-expense", { expenses }, { withCredentials: true })
             .then((response) => {
                 setOpenModal(false);
                 setLoading(false)
