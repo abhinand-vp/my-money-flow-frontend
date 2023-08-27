@@ -34,6 +34,19 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
     const [isOpen, setIsOpen] = useState(true);
     const [loading, setLoading] = useState(false)
     const [inputs, setInputs] = useState([{ type: "", samount: "" }])
+    const [totalExpenses, setTotalExpenses] = useState(0)
+
+    // console.log("inputssss", inputs.map((item)=>{console.log(item.samount);}));
+    console.log("totalExpenses", totalExpenses);
+
+    useEffect(() => {
+        let total = 0;
+        for (const input of inputs) {
+            const samount = parseFloat(input.samount) || 0;
+            total += samount;
+        }
+        setTotalExpenses(total)
+    }, [inputs])
 
     const handleClose = () => { }
     const handleAddInputs = () => {
@@ -67,7 +80,7 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
         let expenses = {
             expenses_amount: inputs,
             expenses_date: formattedDate,
-            total_expenses : 4523
+            total_expenses: 4523
         }
 
         console.log("expenses", expenses);
@@ -120,11 +133,11 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
 
                                         <Button onClick={handleAddInputs} variant='contained' sx={{ width: 50, height: 50 }} >Add</Button>
                                     </Box>
-
+                                    <Typography>Total Expenses Amount  {totalExpenses}</Typography>
                                     {inputs.map((val, index) =>
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, marginTop: 3, marginBottom: 3 }}>
                                             <Select
-                                            fullWidth
+                                                fullWidth
                                                 value={val.type}
                                                 onChange={(e) => handleChange(e, index)}
                                                 name="type"
@@ -144,6 +157,7 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
                                             </Select>
                                             <TextField fullWidth type="number" label="Amount" name="samount" value={val.samount} onChange={(e) => handleChange(e, index)} />
                                             <Button onClick={() => handleDelete(index)} variant='contained'>{<DeleteIcon />}</Button>
+                                            <Button sx={{ position: 'absolute', right: 10, top: 10, color: 'black' }} onClick={() => setOpenModal(false)}>X</Button>
                                         </Box>
                                     )}
 
