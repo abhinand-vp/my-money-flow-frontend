@@ -5,9 +5,14 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import PageNotFound from './pages/PageNotFound';
 import StartPage from './pages/StartPage';
+import {
+  ChakraProvider,
+  theme
+} from '@chakra-ui/react';
 
 function App() {
   return (
+    // <ChakraProvider theme={theme}>
     <div className="App">
       <BrowserRouter>
         <Routes>
@@ -19,6 +24,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
+    // </ChakraProvider>
   );
 }
 

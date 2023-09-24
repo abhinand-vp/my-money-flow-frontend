@@ -17,6 +17,7 @@ import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { getUser } from '../store/userDetails/UserActions';
+import { Heading } from '@chakra-ui/react';
 
 const defaultTheme = createTheme();
 
@@ -96,6 +97,7 @@ const SignIn = () => {
                         </Typography>
                         <Box sx={{ mt: 1 }}>
                             <form onSubmit={handleSubmit(onSubmit)}>
+                                <Heading>Hellooo</Heading>
                                 <TextField
                                     {...register('email', { required: true })}
                                     label="Email"

@@ -132,9 +132,9 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
 
                                         <Button onClick={handleAddInputs} variant='contained' sx={{ width: 50, height: 50 }} >Add</Button>
                                     </Box>
-                                    <Typography>Total Expenses Amount  {totalExpenses}</Typography>
+                                    <Typography>Total Expenses Amount  <Box fontWeight='fontWeightMedium' display='inline' color='red'>{totalExpenses}</Box></Typography>
                                     {inputs.map((val, index) =>
-                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, marginTop: 3, marginBottom: 3 }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, marginTop: 4, marginBottom: 3 }}>
                                             <Select
                                                 fullWidth
                                                 value={val.type}
