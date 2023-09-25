@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, Grid, Stack, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -10,11 +10,16 @@ import Graphs from '../components/dashboardComponents/Graphs';
 
 
 const Dashboard = () => {
+    const [expensesAmount, setExpensesAmount] = useState(0)
+    const [incomeAmount, setIncomeAmount] = useState(0)
+
     const navigate = useNavigate()
     useEffect(() => {
         axios.get('http://localhost:3001/dashboard', { withCredentials: true })
             .then(response => {
-                console.log(response.data.validToken);
+                console.log(response);
+                setIncomeAmount(response.data.previousmonthtotalIncome)
+                setExpensesAmount(response.data.previousmonthtotalExpense)
                 if (response.data.validToken === false) {
                     navigate("*");
                 }
@@ -24,20 +29,6 @@ const Dashboard = () => {
             });
 
     }, [])
-
-    // const [open, setOpen] = React.useState(false);
-    // const [type, setType] = React.useState();
-
-    // const handleOpenIncome = () => {
-    //     setOpen(true)
-    //     setType("income")
-    // }
-
-    // const handleOpenExpenses = () => {
-    //     setOpen(true)
-    //     setType("expenses")
-    // }
-
     const logout = () => {
         Cookies.remove('token');
         navigate("/login")
@@ -49,7 +40,7 @@ const Dashboard = () => {
         <Box sx={{ backgroundColor: '#f0edec52', height: '100vh', overflowY : 'hidden', width: '100vw', margin: 'auto'}}>
             <Toaster />
             <Card sx={{ padding :3}}>
-                <Box sx={{ margin: 2, display: 'flex', justifyContent: 'space-between' }}>
+                <Box sx={{ marginX: 6, marginY: 2, display: 'flex', justifyContent: 'space-between' }}>
                     <Avatar variant="rounded" src="avatar1.jpg" />
                     <Box sx={{ display: 'flex' }}>
                         <Stack>
@@ -65,10 +56,10 @@ const Dashboard = () => {
             <Box sx={{ marginX: 7, overflow: 'auto' }}>
                 <Grid container spacing={4}>
                 <Grid item xs={6} >
-                    <IncomeTab  />
+                    <IncomeTab incomeAmount={incomeAmount} />
                 </Grid>
                 <Grid item xs={6} >
-                    <ExpensesTab />
+                    <ExpensesTab  expensesAmount={expensesAmount}/>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} >
                     <Graphs />
