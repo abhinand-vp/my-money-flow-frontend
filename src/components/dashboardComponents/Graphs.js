@@ -3,7 +3,7 @@ import React from 'react'
 
 const Graphs = () => {
   return (
-    <Box sx={{ width: '90%', border: 3, borderColor: '#319795', borderRadius: 3, marginTop: 1, height: '33vh' }}>
+    <Box sx={{ border: 3, borderColor: '#319795', borderRadius: 3, height: '50vh' }}>
 
 
 </Box>

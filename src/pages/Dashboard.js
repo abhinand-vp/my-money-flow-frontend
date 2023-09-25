@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Avatar, Box, Button, Card, Grid, Stack, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import Cookies from 'js-cookie';
-import IncomeModal from '../components/modals/IncomeModal';
-import ExpenseModal from '../components/modals/ExpenseModal';
-import CountAmount from '../components/dashboardComponents/CountAmount';
-import Reminder from '../components/dashboardComponents/Reminder';
-import { Pichart } from '../components/dashboardComponents/Pichart';
+import IncomeTab from '../components/dashboardComponents/IncomeTab';
+import ExpensesTab from '../components/dashboardComponents/ExpensesTab';
 import Graphs from '../components/dashboardComponents/Graphs';
 
 
@@ -28,18 +25,18 @@ const Dashboard = () => {
 
     }, [])
 
-    const [open, setOpen] = React.useState(false);
-    const [type, setType] = React.useState();
+    // const [open, setOpen] = React.useState(false);
+    // const [type, setType] = React.useState();
 
-    const handleOpenIncome = () => {
-        setOpen(true)
-        setType("income")
-    }
+    // const handleOpenIncome = () => {
+    //     setOpen(true)
+    //     setType("income")
+    // }
 
-    const handleOpenExpenses = () => {
-        setOpen(true)
-        setType("expenses")
-    }
+    // const handleOpenExpenses = () => {
+    //     setOpen(true)
+    //     setType("expenses")
+    // }
 
     const logout = () => {
         Cookies.remove('token');
@@ -49,20 +46,10 @@ const Dashboard = () => {
 
 
     return (
-        <Box sx={{ padding: 3 }}>
+        <Box sx={{ backgroundColor: '#f0edec52', height: '100vh', overflowY : 'hidden', width: '100vw', margin: 'auto'}}>
             <Toaster />
-            {type == "income" ? (
-                <>
-                    <IncomeModal openMOdal={open} setOpenModal={setOpen} />
-                </>
-            ) : (
-                <>
-                    <ExpenseModal openMOdal={open} setOpenModal={setOpen} />
-                </>
-            )}
-
-            <Card sx={{ width: '90vw', margin: 'auto' }}>
-                <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between' }}>
+            <Card sx={{ padding :3}}>
+                <Box sx={{ margin: 2, display: 'flex', justifyContent: 'space-between' }}>
                     <Avatar variant="rounded" src="avatar1.jpg" />
                     <Box sx={{ display: 'flex' }}>
                         <Stack>
@@ -75,29 +62,18 @@ const Dashboard = () => {
                 </Box>
             </Card>
 
-            <Box sx={{ marginX: 7 , height : '70vh', overflow : 'auto'}}>
-
-                <Grid sx={{}} container spacing={2}>
-                    <Grid item xs={12} sm={6} md={4} >
-                        <CountAmount />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Reminder />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Pichart />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={8}>
-                        <Graphs />
-                    </Grid>
-                    <Grid item xs={6}>
-                        {/* <CountAmount /> */}
-                    </Grid>
+            <Box sx={{ marginX: 7, overflow: 'auto' }}>
+                <Grid container spacing={4}>
+                <Grid item xs={6} >
+                    <IncomeTab  />
                 </Grid>
-            </Box>
-            <Box sx={{ position: 'absolute', bottom: '7vh', right: '3vw' }}>
-                <Button sx={{ marginRight: 3 }} variant='contained' onClick={handleOpenIncome} >Add Your Income</Button>
-                <Button variant='contained' onClick={handleOpenExpenses}>Add Your Expense</Button>
+                <Grid item xs={6} >
+                    <ExpensesTab />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} >
+                    <Graphs />
+                </Grid>
+                </Grid>
             </Box>
         </Box>
     )
