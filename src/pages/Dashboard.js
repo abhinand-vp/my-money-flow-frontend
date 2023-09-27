@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, Grid, Stack, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import Cookies from 'js-cookie';
 import IncomeTab from '../components/dashboardComponents/IncomeTab';
@@ -17,9 +16,13 @@ const Dashboard = () => {
     const dispatch = useDispatch();
 
     const dashboardDats = useSelector((store)=>store.dashboard);
-    console.log("edstreeeememememem", dashboardDats.dashboard.userExist.userName);
 
-    let userDetails = dashboardDats.dashboard.userExist.userName;
+    useEffect(()=>{
+        dispatch(getDashboard());
+    }, [])
+    
+    let userDetails = dashboardDats.dashboard.userExist?.userName;
+    console.log("edstreeeememememem", dashboardDats.dashboard.userExist?.userName);
     
     const logout = () => {
         Cookies.remove('token');

@@ -4,7 +4,6 @@ import IncomeModal from '../modals/IncomeModal';
 import { monthNames } from '../../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDashboard } from '../../store/dashboardApis/DashboardAction';
-import { useState } from 'react';
 
 const IncomeTab = () => {
     const dispatch = useDispatch();
