@@ -7,6 +7,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useDispatch } from 'react-redux';
+import { getDashboard } from '../../store/dashboardApis/DashboardAction';
 
 const style = {
     position: 'absolute',
@@ -23,6 +25,8 @@ const style = {
 };
 
 const ExpenseModal = ({ openMOdal, setOpenModal }) => {
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (isOpen == 'false') {
@@ -68,6 +72,7 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
 
 
     const addExpenses = () => {
+        dispatch(getDashboard());
         setLoading(true)
         const inputDate = new Date(expensesDate)
         const formattedDate = inputDate.toLocaleString('en-US', {
@@ -87,7 +92,6 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
                 setOpenModal(false);
                 setInputs([{}])
                 setLoading(false)
-                console.log(response);
             })
             .catch(error => {
                 console.log("Error response", error);

@@ -15,15 +15,19 @@ import { useForm } from 'react-hook-form';
 import { toast, Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../store/userDetails/UserActions';
 import { Heading } from '@chakra-ui/react';
+import { getDashboard } from '../store/dashboardApis/DashboardAction';
 
 const defaultTheme = createTheme();
 
 const SignIn = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    // const value = useSelector((store)=>store.user);
+    // console.log("loginvalaueee", value);
+
 
 
     const {

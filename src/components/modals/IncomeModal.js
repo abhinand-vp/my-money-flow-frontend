@@ -7,6 +7,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { getDashboard } from '../../store/dashboardApis/DashboardAction';
 
 const style = {
     position: 'absolute',
@@ -23,6 +25,8 @@ const style = {
 };
 
 const IncomeModal = ({ openMOdal, setOpenModal }) => {
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (isOpen == 'false') {
@@ -44,6 +48,7 @@ const IncomeModal = ({ openMOdal, setOpenModal }) => {
     const handleClose = () => { }
 
     const onSubmit = data => {
+        dispatch(getDashboard());
         setLoading(true)
         const inputDate = new Date(incomeDate)
         const formattedDate = inputDate.toLocaleString('en-US', {
@@ -62,7 +67,7 @@ const IncomeModal = ({ openMOdal, setOpenModal }) => {
                 reset();
                 setIncomeDate();
                 setOpenModal(false);
-                setLoading(false)
+                setLoading(false);
             })
             .catch(error => {
                 console.log("Error response", error);
