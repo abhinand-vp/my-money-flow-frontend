@@ -86,7 +86,6 @@ const ExpenseModal = ({ openMOdal, setOpenModal }) => {
             total_expenses: totalExpenses
         }
 
-        console.log("expenses", expenses);
         axios.post("http://localhost:3001/add-expense", { expenses }, { withCredentials: true })
             .then((response) => {
                 setOpenModal(false);

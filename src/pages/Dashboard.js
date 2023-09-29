@@ -8,8 +8,28 @@ import ExpensesTab from '../components/dashboardComponents/ExpensesTab';
 import Graphs from '../components/dashboardComponents/Graphs';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDashboard } from '../store/dashboardApis/DashboardAction';
+import { UserData } from '../chartData';
 
 const Dashboard = () => {
+
+    const [userData, setUserData] = useState({
+        labels: UserData.map((data) => data.year),
+        datasets: [
+          {
+            label: "Users Gained",
+            data: UserData.map((data) => data.userGain),
+            backgroundColor: [
+              "rgba(75,192,192,1)",
+              "#ecf0f1",
+              "#50AF95",
+              "#f3ba2f",
+              "#2a71d0",
+            ],
+            borderColor: "black",
+            borderWidth: 2,
+          },
+        ],
+      });
 
 
     const navigate = useNavigate()
@@ -21,8 +41,7 @@ const Dashboard = () => {
         dispatch(getDashboard());
     }, [])
     
-    let userDetails = dashboardDats.dashboard.userExist?.userName;
-    console.log("edstreeeememememem", dashboardDats.dashboard.userExist?.userName);
+    let userDetails = dashboardDats.dashboard?.userExist?.userName;
     
     const logout = () => {
         Cookies.remove('token');
@@ -30,7 +49,7 @@ const Dashboard = () => {
     }
 
     return (
-        <Box sx={{ backgroundColor: '#f0edec52', height: '100vh', overflowY: 'hidden', width: '100vw', margin: 'auto' }}>
+        <Box sx={{ backgroundColor: '#f0edec52', height: '100vh', overflow: 'auto', width: '100vw', margin: 'auto' }}>
             <Toaster />
             <Card sx={{ padding: 3 }}>
                 <Box sx={{ marginX: 6, marginY: 2, display: 'flex', justifyContent: 'space-between' }}>
@@ -46,16 +65,16 @@ const Dashboard = () => {
                 </Box>
             </Card>
 
-            <Box sx={{ marginX: 7, overflow: 'auto' }}>
-                <Grid container spacing={4}>
-                    <Grid item xs={6} >
+            <Box sx={{ marginX: 7, overflow: 'hidden' }}>
+                <Grid container columnSpacing={4} rowSpacing={1}>
+                    <Grid item xs={8} >
                         <IncomeTab />
                     </Grid>
-                    <Grid item xs={6} >
+                    <Grid item xs={4} >
                         <ExpensesTab />
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} >
-                        <Graphs />
+                    <Grid item xs={6} sm={6} md={6}  sx={{height : '50vh'}} >
+                        <Graphs chartData={userData} />
                     </Grid>
                 </Grid>
             </Box>

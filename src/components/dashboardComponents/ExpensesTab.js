@@ -8,15 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const ExpensesTab = () => {
     const dispatch = useDispatch();
-    const dashboardDats = useSelector((store)=>store.dashboard);
+    const dashboardDats = useSelector((store) => store.dashboard);
     const [open, setOpen] = React.useState(false);
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getDashboard())
-    },[])
+    }, [])
 
-    let prevMOnthExpenses = dashboardDats.dashboard.previousmonthtotalExpense;
-    let prevMOnth = dashboardDats.dashboard.previousMonth;
+
 
 
     const handleOpenExpenses = () => {
@@ -25,12 +24,25 @@ const ExpensesTab = () => {
 
     return (
 
-        <Box sx={{ border: 3, border : 0,  borderRadius: 3, marginY: 3, marginX: 1,  height: '12vh', boxShadow: 2 }}>
+        <Box sx={{ border: 3, border: 0, borderRadius: 3, marginY: 3, marginX: 1, height: '25vh', boxShadow: 2 }}>
             <ExpenseModal openMOdal={open} setOpenModal={setOpen} />
-            <Box sx={{ paddingY: 3, paddingX: 2, display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="h5" gutterBottom>{prevMOnth}</Typography> 
-                 <Typography variant="h6" gutterBottom>Total Expense : {prevMOnthExpenses}</Typography>
-                <Button variant='contained' onClick={handleOpenExpenses}>Add Your Expense</Button>
+            <Box sx={{ paddingY: 3, paddingX: 2 }}>
+                <Typography variant="h5" gutterBottom>This MOnth</Typography>
+                <Typography variant="h6" gutterBottom>Total Expense tILL noW : </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' , marginX: 1 }}>
+                    <Box>
+                        <Typography variant="h6" gutterBottom>Food</Typography>
+                        <Typography>500</Typography>
+                    </Box>
+                    <Box>
+                        <Typography variant="h6" gutterBottom>Food</Typography>
+                        <Typography>500</Typography>
+                    </Box>
+                    <Box>
+                        <Typography variant="h6" gutterBottom>Food</Typography>
+                        <Typography>500</Typography>
+                    </Box>
+                </Box>
             </Box>
 
         </Box>

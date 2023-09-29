@@ -1,13 +1,15 @@
 import React from 'react';
 import { Box } from '@mui/material';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS } from "chart.js/auto";
 
 
-const Graphs = () => {
+const Graphs = ({ chartData }) => {
   return (
-    <Box sx={{ border: 3, borderColor: '#319795', borderRadius: 3, height: '50vh' }}>
+    <Box sx={{ border: 3, borderColor: '#319795', borderRadius: 3 }}>
+      <Bar data={chartData} />
 
-
-</Box>
+    </Box>
   )
 }
 
