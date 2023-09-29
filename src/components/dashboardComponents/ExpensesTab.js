@@ -28,19 +28,27 @@ const ExpensesTab = () => {
             <ExpenseModal openMOdal={open} setOpenModal={setOpen} />
             <Box sx={{ paddingY: 3, paddingX: 2 }}>
                 <Typography variant="h5" gutterBottom>This MOnth</Typography>
-                <Typography variant="h6" gutterBottom>Total Expense tILL noW : </Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' , marginX: 1 }}>
+                <Typography variant="h6" gutterBottom>This Month Expense :  </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', marginX: 1 }}>
                     <Box>
                         <Typography variant="h6" gutterBottom>Food</Typography>
-                        <Typography>500</Typography>
+                        <Typography className='ExpenseBoxes'>500</Typography>
                     </Box>
                     <Box>
-                        <Typography variant="h6" gutterBottom>Food</Typography>
-                        <Typography>500</Typography>
+                        <Typography variant="h6" gutterBottom>Rent</Typography>
+                        <Typography className='ExpenseBoxes'>500</Typography>
                     </Box>
                     <Box>
-                        <Typography variant="h6" gutterBottom>Food</Typography>
-                        <Typography>500</Typography>
+                        <Typography variant="h6" gutterBottom>Personal</Typography>
+                        <Typography className='ExpenseBoxes'>500</Typography>
+                    </Box>
+                    <Box>
+                        <Typography variant="h6" gutterBottom>Grocery</Typography>
+                        <Typography className='ExpenseBoxes'>500</Typography>
+                    </Box>
+                    <Box>
+                        <Typography variant="h6" gutterBottom>Travel</Typography>
+                        <Typography className='ExpenseBoxes'>500</Typography>
                     </Box>
                 </Box>
             </Box>

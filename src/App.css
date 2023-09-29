@@ -1,12 +1,51 @@
-*{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     padding: 0;
     margin: 0;
 }
+
 .pageNotFound {
     display: flex;
     justify-content: center;
     gap: 20px;
     align-items: center;
     height: 100vh;
+}
+
+
+@media screen and (max-width: 600px) {
+    .wrapper {
+        height: 500px !important;
+    }
+    
+    .chartWrapper {
+        position: relative;
+    }
+    
+    .chartWrapper>canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        pointer-events: none;
+    }
+    
+    .chartAreaWrapper {
+        width: 600px !important;
+        overflow-x: scroll !important;
+    }
+  }
+
+.css-rd7fx9 {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+}
+.ExpenseBoxes {
+    width: 50px;
+    height: 30px;
+    background-color: lightblue;
+    color: red;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    border-radius: 4px;
 }

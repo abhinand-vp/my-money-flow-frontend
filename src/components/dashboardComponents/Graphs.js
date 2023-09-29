@@ -6,7 +6,7 @@ import { Chart as ChartJS } from "chart.js/auto";
 
 const Graphs = ({ chartData }) => {
   return (
-    <Box sx={{ border: 3, borderColor: '#319795', borderRadius: 3 }}>
+    <Box sx={{ border: 3, border : 'none' ,borderRadius: 3 }}>
       <Bar data={chartData} />
 
     </Box>

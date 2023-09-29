@@ -21,9 +21,9 @@ const Dashboard = () => {
             backgroundColor: [
               "rgba(75,192,192,1)",
               "#ecf0f1",
-              "#50AF95",
-              "#f3ba2f",
-              "#2a71d0",
+            //   "#50AF95",
+            //   "#f3ba2f",
+            //   "#2a71d0",
             ],
             borderColor: "black",
             borderWidth: 2,
@@ -51,8 +51,8 @@ const Dashboard = () => {
     return (
         <Box sx={{ backgroundColor: '#f0edec52', height: '100vh', overflow: 'auto', width: '100vw', margin: 'auto' }}>
             <Toaster />
-            <Card sx={{ padding: 3 }}>
-                <Box sx={{ marginX: 6, marginY: 2, display: 'flex', justifyContent: 'space-between' }}>
+            <Card sx={{ paddingX: 2 }}>
+                <Box sx={{ marginX : {xs : 6, sm: 1},  marginY: 2, display: 'flex', justifyContent: 'space-between' }}>
                     <Avatar variant="rounded" src="avatar1.jpg" />
                             <Typography fontWeight={700}>{userDetails}</Typography>
                     <Box sx={{ display: 'flex' }}>
@@ -67,13 +67,13 @@ const Dashboard = () => {
 
             <Box sx={{ marginX: 7, overflow: 'hidden' }}>
                 <Grid container columnSpacing={4} rowSpacing={1}>
-                    <Grid item xs={8} >
+                    <Grid item xs={12} md={7} >
                         <IncomeTab />
                     </Grid>
-                    <Grid item xs={4} >
+                    <Grid item xs={12} md={5}> 
                         <ExpensesTab />
                     </Grid>
-                    <Grid item xs={6} sm={6} md={6}  sx={{height : '50vh'}} >
+                    <Grid item xs={12} md={8} >
                         <Graphs chartData={userData} />
                     </Grid>
                 </Grid>

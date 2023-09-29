@@ -42,7 +42,7 @@ const IncomeTab = () => {
 
     return (
 
-        <Box sx={{ border: 3, border: 0, borderRadius: 3, marginY: 3, marginX: 1, height: '25vh', boxShadow: 2 }}>
+        <Box sx={{ border: 3, border: 0, borderRadius: 3, marginY: 3, marginX: 1, boxShadow: 2 }}>
             {type == "income" ? <>
                 <IncomeModal openMOdal={open} setOpenModal={setOpen} />
             </> : <>
@@ -52,11 +52,11 @@ const IncomeTab = () => {
                 <Typography sx={{textAlign : 'center'}} variant="h5" gutterBottom>{prevMOnth}</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', marginY: 2, marginX :1 }}>
                     <Typography variant="h6" gutterBottom>Total Income : <Box fontWeight='fontWeightMedium' display='inline' color='red'>{prevMOnthIncome}</Box> </Typography>
-                    <Button variant='contained' onClick={handleOpenIncome}>Add Your Income</Button>
+                    <Button variant='contained' onClick={handleOpenIncome}> Income</Button>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', marginX :1 }}>
                     <Typography variant="h6" gutterBottom>Total Expense : <Box fontWeight='fontWeightMedium' display='inline' color='red'>{prevMOnthExpenses}</Box> </Typography>
-                    <Button variant='contained' onClick={handleOpenExpenses}>Add Your Expense</Button>
+                    <Button variant='contained' onClick={handleOpenExpenses}>Add Expense</Button>
                 </Box>
             </Box>
 
